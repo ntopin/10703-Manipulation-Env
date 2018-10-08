@@ -1,0 +1,94 @@
+from pybullet_envs.bullet.kuka_diverse_object_gym_env import KukaDiverseObjectEnv
+from pybullet_envs.bullet.kukaGymEnv import KukaGymEnv
+import os
+import pybullet as p
+import numpy as np
+import pybullet_data
+import glob
+from pkg_resources import parse_version
+import gym
+
+class KukaVariedObjectEnv(KukaDiverseObjectEnv):
+    """Class for Kuka environment or 10703 project.
+    In each episode an object is chosen from a set of specific objects.
+    """
+    
+    def __init__(self,
+         urdfRoot2,
+         urdfRoot=pybullet_data.getDataPath(),
+         actionRepeat=80,
+         isEnableSelfCollision=True,
+         renders=False,
+         isDiscrete=False,
+         maxSteps=8,
+         dv=0.06,
+         removeHeightHack=False,
+         blockRandom=0.3,
+         cameraRandom=0,
+         width=48,
+         height=48):
+        """Initializes the KukaVariedObjectEnv. 
+
+        Args:
+            urdfRoot: The diretory from which to load environment URDF's.
+            actionRepeat: The number of simulation steps to apply for each action.
+            isEnableSelfCollision: If true, enable self-collision.
+            renders: If true, render the bullet GUI.
+            isDiscrete: If true, the action space is discrete. If False, the
+                action space is continuous.
+            maxSteps: The maximum number of actions per episode.
+            dv: The velocity along each dimension for each action.
+            removeHeightHack: If false, there is a "height hack" where the gripper
+                automatically moves down for each action. If true, the environment is
+                harder and the policy chooses the height displacement.
+            blockRandom: A float between 0 and 1 indicated block randomness. 0 is
+                deterministic.
+            cameraRandom: A float between 0 and 1 indicating camera placement
+                randomness. 0 is deterministic.
+            width: The image width.
+            height: The observation image height.
+        """
+        super().__init__(urdfRoot, actionRepeat, isEnableSelfCollision, renders, isDiscrete, maxSteps, dv, removeHeightHack, blockRandom, cameraRandom, width, height, 1, False)
+        self._urdfRoot2 = urdfRoot2
+        self.blockUid = None
+
+    def get_feature_vec_observation(self):
+        return self.getExtendedObservation() + [self.cur_file]
+
+    def _get_random_object(self, num_objects, test):
+        """Randomly choose an object urdf from the random_urdfs directory.
+
+        Args:
+            num_objects:
+                Number of graspable objects (used in parent class; ignored here and 1 is used instead)
+
+        Returns:
+            A list of urdf filenames.
+        """
+        if test:
+            urdf_pattern = os.path.join(self._urdfRoot2, '*.urdf')
+        else:
+            urdf_pattern = os.path.join(self._urdfRoot2, '*.urdf')
+        found_object_directories = glob.glob(urdf_pattern)
+        total_num_objects = len(found_object_directories)
+        selected_object = np.random.choice(total_num_objects)
+        sof = found_object_directories[selected_object]
+        
+        self.cur_file = int(sof[sof.rfind('/')+1 : sof.rfind('.')])
+        print(self.cur_file)
+        print(sof)
+        return [sof]
+
+    def _reset(self):
+        temp = super()._reset()
+        self.blockUid = self._objectUids[0]
+        return temp
+    
+    def _step(self, action):
+        return super()._step(action)
+    
+    if parse_version(gym.__version__)>=parse_version('0.9.6'):
+        
+        reset = _reset
+        
+        step = _step
