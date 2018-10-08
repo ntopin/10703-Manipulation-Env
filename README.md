@@ -1,5 +1,4 @@
-# 10703-Manipulation-Env
-Manipulation environment for 10-703 Deep RL course project.
+# 10-703 Project: Manipulation Environment
 
 This is a modification of the KUKA robotic arm environment in PyBullet (https://github.com/bulletphysics/bullet3).
 
