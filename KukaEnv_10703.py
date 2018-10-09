@@ -30,7 +30,8 @@ class KukaVariedObjectEnv(KukaDiverseObjectEnv):
         """Initializes the KukaVariedObjectEnv. 
 
         Args:
-            urdfRoot: The diretory from which to load environment URDF's.
+            urdfRoot2: The directory from which to load item URDFs.
+            urdfRoot: The directory from which to load environment URDFs.
             actionRepeat: The number of simulation steps to apply for each action.
             isEnableSelfCollision: If true, enable self-collision.
             renders: If true, render the bullet GUI.
