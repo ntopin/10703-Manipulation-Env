@@ -13,7 +13,7 @@ Additional details and instructions to be added soon.
 
 Once you have Gym and PyBullet, you should be able to directly use the environment. 
 
-To verify that everything is correctly set up by running `python3 KukaTest_10703.py /direct/path/to/items/directory`. You should be able to see a visualizer of the KUKA arm and be able to control the arm using the debug sliders. The test program will run episodes until you terminate it. 
+To verify that everything is correctly set up, run `python3 KukaTest_10703.py /direct/path/to/items/directory`. You should be able to see a visualizer of the KUKA arm and be able to control the arm using the debug sliders. The test program will run episodes until you terminate it. 
 
 
 ## Using the OpenAI Gym Interface
@@ -32,7 +32,8 @@ If discrete, then the action space consists of 7 actions:
   - `4`: Positive `dY`.
   - `5`: Negative `dA`.
   - `6`: Positive `dA`.
-If the "height hack" is not used, then there are 9 actions instead. Actions 1-4 are the same and the others are:
+
+  If the "height hack" is not used, then there are 9 actions instead. Actions 1-4 are the same and the others are:
   - `5`: Negative `dZ`.
   - `6`: Positive `dZ`.
   - `7`: Negative `dA`.
@@ -40,7 +41,8 @@ If the "height hack" is not used, then there are 9 actions instead. Actions 1-4 
 
 If continuous, then the action space consists of a 3-tuple:
   `(dX, dY, dA)`
-If the "height hack" is not used, then it is a 4-tuple instead:
+
+  If the "height hack" is not used, then it is a 4-tuple instead:
   `(dX, dY, dZ, dA)`
 
 `dX`, `dY`, and `dZ` are the offsets along the x-axis, y-axis, and z-axis, resptectively. `dA` is the vertical angle offset. The end effector will automatically attempt to grasp when close to the bin. 
@@ -51,7 +53,7 @@ The default observation returned by `step` is an RGB image whose height and widt
 
 A feature vector observation of the current state can be obtained using `get_feature_vec_observation()`. This consists of the arm's position and orientation, the distance and angle of the block, and the block's class label (number of the URDF file used when loading the item). If using this representation, you may want to expand the final value into one binary variable per potential URDF file. 
 
-###Use
+### Use
 
 The environment can be used as shown in `KukaTest_10703.py`:
 ```python
