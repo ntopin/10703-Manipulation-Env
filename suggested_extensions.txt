@@ -1,0 +1,11 @@
+To give a few ideas of extensions you could explore, here are some directions you could explore:
+- Consider a variety of policy gradient methods. Does any seem most appropriate for this domain?
+- For the critic, use Hindsight Experience Replay (treating the object location as the goal).
+-For critic, use Prioritized Experience Replay.
+- Choose a different exploration policy (e.g., add curiosity-driven exploration).
+- Learn a next-state model of the dynamics (i.e., given current state and action, learn to predict next state) and use it to improve reward.
+- Add other functions to your agent architecture. For example, actor-critic methods learn both a policy and value function. Are there other useful functions as well?
+- Use sub-agents for different actions.
+- Learn an embedding of the action space.
+
+You may of course incorporate other methods beyond those listed. This is just a few ideas to get you started.
