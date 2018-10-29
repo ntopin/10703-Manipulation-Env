@@ -49,7 +49,7 @@ class KukaVariedObjectEnv(KukaDiverseObjectEnv):
             width: The image width.
             height: The observation image height.
         """
-        super().__init__(urdfRoot, actionRepeat, isEnableSelfCollision, renders, isDiscrete, maxSteps, dv, removeHeightHack, blockRandom, cameraRandom, width, height, 1, False)
+        super(KukaVariedObjectEnv, self).__init__(urdfRoot, actionRepeat, isEnableSelfCollision, renders, isDiscrete, maxSteps, dv, removeHeightHack, blockRandom, cameraRandom, width, height, 1, False)
         self._urdfRoot2 = urdfRoot2
         self.blockUid = None
 
@@ -75,18 +75,17 @@ class KukaVariedObjectEnv(KukaDiverseObjectEnv):
         selected_object = np.random.choice(total_num_objects)
         sof = found_object_directories[selected_object]
         
-        self.cur_file = int(sof[sof.rfind('/')+1 : sof.rfind('.')])
-        print(self.cur_file)
-        print(sof)
+        fname = os.path.split(sof)[1]
+        self.cur_file = int(fname[0 : fname.rfind('.')])
         return [sof]
 
     def _reset(self):
-        temp = super()._reset()
+        temp = super(KukaVariedObjectEnv, self)._reset()
         self.blockUid = self._objectUids[0]
         return temp
     
     def _step(self, action):
-        return super()._step(action)
+        return super(KukaVariedObjectEnv, self)._step(action)
     
     if parse_version(gym.__version__)>=parse_version('0.9.6'):
         
